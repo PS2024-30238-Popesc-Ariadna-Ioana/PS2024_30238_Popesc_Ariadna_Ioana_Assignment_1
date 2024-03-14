@@ -11,5 +11,5 @@ public class RecenziiDto {
     private Long id;
     private String nume_utilizator;
     private String recenzia;
-    private Long id_produs;
+    //private Long id_produs;
 }

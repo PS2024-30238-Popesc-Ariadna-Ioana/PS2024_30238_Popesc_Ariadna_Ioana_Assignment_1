@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class ReduceriDto {
     private Long id;
-    private int numar;
+    private String nume;
     private String perioada;
-    private String tip;
+    private double procent;
 }

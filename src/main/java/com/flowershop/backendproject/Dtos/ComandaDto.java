@@ -10,6 +10,6 @@ import lombok.*;
 public class ComandaDto {
     private Long id;
     private int numar_comanda;
-    private Long id_produs;
     private double suma;
+    //private Long id_produs;
 }

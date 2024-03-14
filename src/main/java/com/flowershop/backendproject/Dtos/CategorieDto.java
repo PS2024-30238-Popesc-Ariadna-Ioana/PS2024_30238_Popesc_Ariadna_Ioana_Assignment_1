@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class CategorieDto {
     private Long id;
-    private int nume;
-    private Long id_produs;
+    private String nume;
+    //private Long id_produs;
 }
