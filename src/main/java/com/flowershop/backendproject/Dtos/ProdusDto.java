@@ -13,5 +13,5 @@ public class ProdusDto {
     private double pret;
     private String sezon;
     private int stoc;
-    private Long id_categorie;
+    //private Long id_categorie;
 }

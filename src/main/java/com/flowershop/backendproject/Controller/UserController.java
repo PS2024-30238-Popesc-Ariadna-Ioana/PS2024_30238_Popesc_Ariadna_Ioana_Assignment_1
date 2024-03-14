@@ -2,6 +2,8 @@ package com.flowershop.backendproject.Controller;
 
 import com.flowershop.backendproject.Dtos.UserDto;
 import com.flowershop.backendproject.Services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/user")
 public class UserController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     @Autowired
@@ -23,42 +26,54 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<UserDto>> getUser(){
-        List<UserDto> dtos =  userService.getUser();
+        LOGGER.info("GET request received to fetch all users");
+        List<UserDto> dtos = userService.getUser();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getPerson(@PathVariable("id") Long userId) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId) {
+        LOGGER.info("GET request received to fetch user with ID: {}", userId);
         try{
             UserDto dto = userService.findUserById(userId);
+            LOGGER.info("User with ID {} found in the database", userId);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }catch(Exception e){
+            LOGGER.error("User with ID {} not found in the database", userId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping()
-    public ResponseEntity<Long> insertProsumer(@Validated @RequestBody UserDto userDto) {
+    public ResponseEntity<Long> insert(@Validated @RequestBody UserDto userDto) {
+        LOGGER.info("POST request received to insert a new user");
         Long userID = userService.insert(userDto);
+        LOGGER.info("User with ID {} inserted into the database", userID);
         return new ResponseEntity<>(userID, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") Long userId, @Validated @RequestBody UserDto userDto) {
+        LOGGER.info("PUT request received to update user with ID: {}", userId);
         try {
             userService.update(userId, userDto);
+            LOGGER.info("User with ID {} updated", userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            LOGGER.error("Failed to update user with ID: {}", userId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long userId) {
+        LOGGER.info("DELETE request received to delete user with ID: {}", userId);
         try {
             userService.delete(userId);
+            LOGGER.info("User with ID {} deleted", userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            LOGGER.error("Failed to delete user with ID: {}", userId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
