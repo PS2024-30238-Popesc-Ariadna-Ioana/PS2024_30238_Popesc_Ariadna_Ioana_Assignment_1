@@ -14,6 +14,7 @@ public class ComandaMapper {
                 .id(comanda.getId())
                 .numar_comanda(comanda.getNumar_comanda())
                 .suma(comanda.getSuma())
+                //.id_user(comanda.getUser().getId())
                 .build();
     }
 

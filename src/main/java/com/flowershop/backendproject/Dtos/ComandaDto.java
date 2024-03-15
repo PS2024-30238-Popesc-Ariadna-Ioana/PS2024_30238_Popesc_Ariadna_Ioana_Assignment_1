@@ -2,6 +2,8 @@ package com.flowershop.backendproject.Dtos;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -11,5 +13,5 @@ public class ComandaDto {
     private Long id;
     private int numar_comanda;
     private double suma;
-    //private Long id_produs;
+    //private Set<UserDto> id_user;
 }

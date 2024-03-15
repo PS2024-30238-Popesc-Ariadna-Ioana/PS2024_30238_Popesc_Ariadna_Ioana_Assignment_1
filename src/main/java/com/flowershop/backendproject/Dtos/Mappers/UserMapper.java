@@ -17,6 +17,7 @@ public class UserMapper {
                       .email(user.getEmail())
                       .parola(user.getParola())
                       .rol(user.getRol())
+                      //.comanda(user.getComanda())
                       .build();
     }
 

@@ -3,6 +3,8 @@ package com.flowershop.backendproject.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -27,4 +29,6 @@ public class User {
     @Column(name = "rol", nullable = false)
     private String rol;
 
+   // @OneToMany(mappedBy = "user")
+   // private List<Comanda> comanda;
 }

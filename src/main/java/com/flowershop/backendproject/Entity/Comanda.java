@@ -3,8 +3,6 @@ package com.flowershop.backendproject.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -23,6 +21,7 @@ public class Comanda {
     @Column(name = "suma", nullable = false)
     private double suma;
 
-    //@Column(name = "id_produs", nullable = false)
-    //private List<Produs> id_produs;
+  //  @ManyToOne
+  //  @JoinColumn(name = "id_user")
+  //  private User user;
 }
