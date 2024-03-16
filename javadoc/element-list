@@ -1,0 +1,7 @@
+com.flowershop.backendproject
+com.flowershop.backendproject.Controller
+com.flowershop.backendproject.Dtos
+com.flowershop.backendproject.Dtos.Mappers
+com.flowershop.backendproject.Entity
+com.flowershop.backendproject.Repositories
+com.flowershop.backendproject.Services
