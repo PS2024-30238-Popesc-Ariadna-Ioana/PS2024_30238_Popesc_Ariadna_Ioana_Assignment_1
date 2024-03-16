@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de reduceri.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/reduceri")
@@ -24,6 +27,10 @@ public class ReduceriController {
         this.reduceriService = reduceriService;
     }
 
+    /**
+     * Returneaza o lista cu toate reducerile din sistem.
+     * @return Lista de DTO-uri pentru reduceri
+     */
     @GetMapping()
     public ResponseEntity<List<ReduceriDto>> getReduceri(){
         LOGGER.info("GET request received to fetch all the discounts.");
@@ -31,6 +38,11 @@ public class ReduceriController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre o reducere specificata prin ID.
+     * @param reducereId ID-ul reducerii
+     * @return DTO-ul reducerii sau un cod de eroare HTTP in cazul in care reducerea nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReduceriDto> getReduceriById(@PathVariable("id") Long reducereId) {
         LOGGER.info("GET request received to fetch discount with ID: {}", reducereId);
@@ -44,6 +56,11 @@ public class ReduceriController {
         }
     }
 
+    /**
+     * Insereaza o noua reducere in sistem.
+     * @param reduceriDto DTO-ul reducerii care urmeaza sa fie inserata
+     * @return ID-ul reducerii inserate sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody ReduceriDto reduceriDto) {
         LOGGER.info("POST request received to insert a new discount");
@@ -52,6 +69,12 @@ public class ReduceriController {
         return new ResponseEntity<>(reduceriId, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre o reducere existenta.
+     * @param reduceriId ID-ul reducerii care urmeaza sa fie actualizata
+     * @param reduceriDto DTO-ul cu noile informatii ale reducerii
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateReducere(@PathVariable("id") Long reduceriId, @Validated @RequestBody ReduceriDto reduceriDto) {
         LOGGER.info("PUT request received to update review with ID: {}", reduceriId);
@@ -65,6 +88,11 @@ public class ReduceriController {
         }
     }
 
+    /**
+     * Sterge reducerea cu ID-ul specificat.
+     * @param reducereId ID-ul reducerii care urmeaza sa fie stearsa
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteReducere(@PathVariable("id") Long reducereId) {
         LOGGER.info("DELETE request received to delete the review with ID: {}", reducereId);

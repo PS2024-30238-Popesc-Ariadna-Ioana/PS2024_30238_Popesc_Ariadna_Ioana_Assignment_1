@@ -2,16 +2,33 @@ package com.flowershop.backendproject.Dtos;
 
 import lombok.*;
 
-import java.util.Set;
-
+/**
+ * Clasa DTO (Data Transfer Object) care reprezinta informatiile unei comenzi.
+ */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ComandaDto {
+
+    /**
+     * Identificatorul unic al comenzii.
+     */
     private Long id;
+
+    /**
+     * Numarul comenzii.
+     */
     private int numar_comanda;
+
+    /**
+     * Suma totala a comenzii.
+     */
     private double suma;
-    //private Set<UserDto> id_user;
+
+    // /**
+    //  * Setul de utilizatori asociat acestei comenzi.
+    //  */
+    // private Set<UserDto> id_user;
 }

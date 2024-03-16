@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de produse.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/produs")
@@ -25,6 +28,10 @@ public class ProdusController {
         this.produsService = produsService;
     }
 
+    /**
+     * Returneaza o lista cu toate produsele din sistem.
+     * @return Lista de DTO-uri pentru produse
+     */
     @GetMapping()
     public ResponseEntity<List<ProdusDto>> getProdus(){
         LOGGER.info("GET request received to fetch all products.");
@@ -32,6 +39,11 @@ public class ProdusController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre un produs specificat prin ID.
+     * @param produsId ID-ul produsului
+     * @return DTO-ul produsului sau un cod de eroare HTTP in cazul in care produsul nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProdusDto> getProdusById(@PathVariable("id") Long produsId) {
         LOGGER.info("GET request received to fetch user with ID: {}", produsId);
@@ -45,6 +57,11 @@ public class ProdusController {
         }
     }
 
+    /**
+     * Insereaza un nou produs in sistem.
+     * @param produsDto DTO-ul produsului care urmeaza sa fie inserat
+     * @return ID-ul produsului inserat sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody ProdusDto produsDto) {
         LOGGER.info("POST request received to insert a new product");
@@ -53,6 +70,12 @@ public class ProdusController {
         return new ResponseEntity<>(produsId, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre un produs existent.
+     * @param produsId ID-ul produsului care urmeaza sa fie actualizat
+     * @param produsDto DTO-ul cu noile informatii ale produsului
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateProdus(@PathVariable("id") Long produsId, @Validated @RequestBody ProdusDto produsDto) {
         LOGGER.info("PUT request received to update product with ID: {}", produsId);
@@ -66,6 +89,11 @@ public class ProdusController {
         }
     }
 
+    /**
+     * Sterge produsul cu ID-ul specificat.
+     * @param produsId ID-ul produsului care urmeaza sa fie sters
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteProdus(@PathVariable("id") Long produsId) {
         LOGGER.info("DELETE request received to delete user with ID: {}", produsId);

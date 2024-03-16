@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de categoriile de produse.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/categorie")
@@ -24,6 +27,10 @@ public class CategorieController {
         this.categorieService = categorieService;
     }
 
+    /**
+     * Returneaza o lista cu toate categoriile de produse din sistem.
+     * @return Lista de DTO-uri pentru categoriile de produse
+     */
     @GetMapping()
     public ResponseEntity<List<CategorieDto>> getCategorie(){
         LOGGER.info("GET request received to fetch all categories.");
@@ -31,6 +38,11 @@ public class CategorieController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre o categorie specificata prin ID.
+     * @param cateorieId ID-ul categoriei
+     * @return DTO-ul categoriei sau un cod de eroare HTTP in cazul in care categoria nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategorieDto> getCategorieById(@PathVariable("id") Long cateorieId) {
         LOGGER.info("GET request received to fetch category with ID: {}", cateorieId);
@@ -44,6 +56,11 @@ public class CategorieController {
         }
     }
 
+    /**
+     * Insereaza o noua categorie in sistem.
+     * @param categorieDto DTO-ul categoriei care urmeaza sa fie inserata
+     * @return ID-ul categoriei inserate sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody CategorieDto categorieDto) {
         LOGGER.info("POST request received to insert a new category");
@@ -52,6 +69,12 @@ public class CategorieController {
         return new ResponseEntity<>(categorieId, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre o categorie existenta.
+     * @param categorieId ID-ul categoriei care urmeaza sa fie actualizata
+     * @param categorieDto DTO-ul cu noile informatii ale categoriei
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateCategorie(@PathVariable("id") Long categorieId, @Validated @RequestBody CategorieDto categorieDto) {
         LOGGER.info("PUT request received to update product with ID: {}", categorieId);
@@ -65,6 +88,11 @@ public class CategorieController {
         }
     }
 
+    /**
+     * Sterge categoria cu ID-ul specificat.
+     * @param categorieId ID-ul categoriei care urmeaza sa fie stearsa
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCategorie(@PathVariable("id") Long categorieId) {
         LOGGER.info("DELETE request received to delete user with ID: {}", categorieId);

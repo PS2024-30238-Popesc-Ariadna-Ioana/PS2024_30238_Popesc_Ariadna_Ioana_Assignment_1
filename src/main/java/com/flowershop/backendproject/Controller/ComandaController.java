@@ -1,6 +1,5 @@
 package com.flowershop.backendproject.Controller;
 
-
 import com.flowershop.backendproject.Dtos.ComandaDto;
 import com.flowershop.backendproject.Services.ComandaService;
 import org.slf4j.Logger;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de comenzile de produse.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/comanda")
@@ -25,6 +27,10 @@ public class ComandaController {
         this.comandaService = comandaService;
     }
 
+    /**
+     * Returneaza o lista cu toate comenzile de produse din sistem.
+     * @return Lista de DTO-uri pentru comenzile de produse
+     */
     @GetMapping()
     public ResponseEntity<List<ComandaDto>> getComanda(){
         LOGGER.info("GET request received to fetch all the orders.");
@@ -32,6 +38,11 @@ public class ComandaController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre o comanda specificata prin ID.
+     * @param comandaId ID-ul comenzii
+     * @return DTO-ul comenzii sau un cod de eroare HTTP in cazul in care comanda nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<ComandaDto> getCategorieById(@PathVariable("id") Long comandaId) {
         LOGGER.info("GET request received to fetch category with ID: {}", comandaId);
@@ -45,6 +56,11 @@ public class ComandaController {
         }
     }
 
+    /**
+     * Insereaza o noua comanda in sistem.
+     * @param comandaDto DTO-ul comenzii care urmeaza sa fie inserata
+     * @return ID-ul comenzii inserate sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody ComandaDto comandaDto) {
         LOGGER.info("POST request received to insert a new order");
@@ -53,6 +69,12 @@ public class ComandaController {
         return new ResponseEntity<>(comandaId, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre o comanda existenta.
+     * @param comandaId ID-ul comenzii care urmeaza sa fie actualizata
+     * @param comandaDto DTO-ul cu noile informatii ale comenzii
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateComanda(@PathVariable("id") Long comandaId, @Validated @RequestBody ComandaDto comandaDto) {
         LOGGER.info("PUT request received to update order with ID: {}", comandaId);
@@ -66,6 +88,11 @@ public class ComandaController {
         }
     }
 
+    /**
+     * Sterge comanda cu ID-ul specificat.
+     * @param comandaId ID-ul comenzii care urmeaza sa fie stearsa
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteComanda(@PathVariable("id") Long comandaId) {
         LOGGER.info("DELETE request received to delete the order with ID: {}", comandaId);

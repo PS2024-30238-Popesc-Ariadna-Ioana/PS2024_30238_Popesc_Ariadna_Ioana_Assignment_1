@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de recenzii.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/recenzii")
@@ -24,6 +27,10 @@ public class RecenziiController {
         this.recenziiService = recenziiService;
     }
 
+    /**
+     * Returneaza o lista cu toate recenziile din sistem.
+     * @return Lista de DTO-uri pentru recenzii
+     */
     @GetMapping()
     public ResponseEntity<List<RecenziiDto>> getRecenzii(){
         LOGGER.info("GET request received to fetch all the reviews.");
@@ -31,6 +38,11 @@ public class RecenziiController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre o recenzie specificata prin ID.
+     * @param recenzieId ID-ul recenziei
+     * @return DTO-ul recenziei sau un cod de eroare HTTP in cazul in care recenzia nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<RecenziiDto> getRecenziiById(@PathVariable("id") Long recenzieId) {
         LOGGER.info("GET request received to fetch review with ID: {}", recenzieId);
@@ -44,6 +56,11 @@ public class RecenziiController {
         }
     }
 
+    /**
+     * Insereaza o noua recenzie in sistem.
+     * @param recenziiDto DTO-ul recenziei care urmeaza sa fie inserata
+     * @return ID-ul recenziei inserate sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody RecenziiDto recenziiDto) {
         LOGGER.info("POST request received to insert a new review");
@@ -52,6 +69,12 @@ public class RecenziiController {
         return new ResponseEntity<>(recenziiId, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre o recenzie existenta.
+     * @param recenziiId ID-ul recenziei care urmeaza sa fie actualizata
+     * @param recenziiDto DTO-ul cu noile informatii ale recenziei
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateComanda(@PathVariable("id") Long recenziiId, @Validated @RequestBody RecenziiDto recenziiDto) {
         LOGGER.info("PUT request received to update review with ID: {}", recenziiId);
@@ -65,6 +88,11 @@ public class RecenziiController {
         }
     }
 
+    /**
+     * Sterge recenzia cu ID-ul specificat.
+     * @param recenziiId ID-ul recenziei care urmeaza sa fie stearsa
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteRecenzie(@PathVariable("id") Long recenziiId) {
         LOGGER.info("DELETE request received to delete the review with ID: {}", recenziiId);

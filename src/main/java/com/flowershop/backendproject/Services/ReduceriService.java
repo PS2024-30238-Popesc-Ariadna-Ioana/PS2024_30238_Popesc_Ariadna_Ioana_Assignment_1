@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+/**
+ * Clasa de serviciu care gestioneaza operatiunile legate de reduceri.
+ */
 public class ReduceriService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReduceriService.class);
     private final ReduceriRepository reduceriRepository;
@@ -23,6 +26,11 @@ public class ReduceriService {
         this.reduceriRepository = reduceriRepository;
     }
 
+    /**
+     * Returneaza o lista de toate reducerile.
+     *
+     * @return Lista de reduceri sub forma de ReduceriDto
+     */
     public List<ReduceriDto> getReduceri() {
         List<Reduceri> reduceriList = reduceriRepository.findAll();
         return reduceriList.stream()
@@ -30,6 +38,13 @@ public class ReduceriService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gaseste o reducere dupa ID.
+     *
+     * @param id ID-ul reducerii
+     * @return ReduceriDto-ul asociat reducerii gasite
+     * @throws Exception daca reducerea nu exista
+     */
     public ReduceriDto finReduceriById(Long id) throws Exception {
         Optional<Reduceri> reduceriOptional = reduceriRepository.findById(id);
         if (!reduceriOptional.isPresent()) {
@@ -39,6 +54,12 @@ public class ReduceriService {
         return ReduceriMapper.toReduceriDto(reduceriOptional.get());
     }
 
+    /**
+     * Insereaza o noua reducere in baza de date.
+     *
+     * @param reduceriDto ReduceriDto-ul reducerii de inserat
+     * @return ID-ul reducerii inserate
+     */
     public Long insert(ReduceriDto reduceriDto) {
         Reduceri reduceri = ReduceriMapper.toEntity(reduceriDto);
         reduceri = reduceriRepository.save(reduceri);
@@ -46,6 +67,14 @@ public class ReduceriService {
         return reduceri.getId();
     }
 
+    /**
+     * Actualizeaza informatiile unei reduceri.
+     *
+     * @param id ID-ul reducerii de actualizat
+     * @param reduceriDto ReduceriDto-ul cu noile informatii ale reducerii
+     * @return ReduceriDto-ul reducerii actualizate
+     * @throws Exception daca reducerea nu exista
+     */
     public ReduceriDto update(Long id, ReduceriDto reduceriDto) throws Exception {
         Optional<Reduceri> reduceriOptional = reduceriRepository.findById(id);
         if (reduceriOptional.isPresent()) {
@@ -62,6 +91,12 @@ public class ReduceriService {
         }
     }
 
+    /**
+     * Sterge o reducere din baza de date.
+     *
+     * @param id ID-ul reducerii de sters
+     * @throws Exception daca reducerea nu exista
+     */
     public void delete(Long id) throws Exception {
         Optional<Reduceri> optionalReduceri = reduceriRepository.findById(id);
         if (optionalReduceri.isPresent()) {

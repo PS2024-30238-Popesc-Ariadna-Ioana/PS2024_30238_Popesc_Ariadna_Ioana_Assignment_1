@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller-ul care gestioneaza operatiile legate de utilizatori.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/user")
@@ -24,6 +27,10 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Returneaza o lista cu toti utilizatorii din sistem.
+     * @return Lista de DTO-uri pentru utilizatori
+     */
     @GetMapping()
     public ResponseEntity<List<UserDto>> getUser(){
         LOGGER.info("GET request received to fetch all users");
@@ -31,6 +38,11 @@ public class UserController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /**
+     * Returneaza informatiile despre un utilizator specificat prin ID.
+     * @param userId ID-ul utilizatorului
+     * @return DTO-ul utilizatorului sau un cod de eroare HTTP in cazul in care utilizatorul nu exista
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId) {
         LOGGER.info("GET request received to fetch user with ID: {}", userId);
@@ -44,6 +56,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Insereaza un nou utilizator in sistem.
+     * @param userDto DTO-ul utilizatorului care urmeaza sa fie inserat
+     * @return ID-ul utilizatorului inserat sau un cod de eroare HTTP in cazul unei probleme
+     */
     @PostMapping()
     public ResponseEntity<Long> insert(@Validated @RequestBody UserDto userDto) {
         LOGGER.info("POST request received to insert a new user");
@@ -52,6 +69,12 @@ public class UserController {
         return new ResponseEntity<>(userID, HttpStatus.CREATED);
     }
 
+    /**
+     * Actualizeaza informatiile despre un utilizator existent.
+     * @param userId ID-ul utilizatorului care urmeaza sa fie actualizat
+     * @param userDto DTO-ul cu noile informatii ale utilizatorului
+     * @return Un cod de eroare HTTP in cazul in care actualizarea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") Long userId, @Validated @RequestBody UserDto userDto) {
         LOGGER.info("PUT request received to update user with ID: {}", userId);
@@ -65,6 +88,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Sterge utilizatorul cu ID-ul specificat.
+     * @param userId ID-ul utilizatorului care urmeaza sa fie sters
+     * @return Un cod de eroare HTTP in cazul in care stergerea a esuat sau HTTP 200 OK daca a avut succes
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long userId) {
         LOGGER.info("DELETE request received to delete user with ID: {}", userId);

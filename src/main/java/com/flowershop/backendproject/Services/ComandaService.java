@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+/**
+ * Clasa de serviciu care gestioneaza operatiile legate de comenzi.
+ */
 public class ComandaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComandaService.class);
     private final ComandaRepository comandaRepository;
@@ -23,6 +26,11 @@ public class ComandaService {
         this.comandaRepository = comandaRepository;
     }
 
+    /**
+     * Returneaza o lista de toate comenzile.
+     *
+     * @return Lista de comenzi sub forma de ComandaDto
+     */
     public List<ComandaDto> getComanda() {
         List<Comanda> comandaList = comandaRepository.findAll();
         return comandaList.stream()
@@ -30,6 +38,13 @@ public class ComandaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gaseste o comanda dupa ID.
+     *
+     * @param id ID-ul comenzii
+     * @return ComandaDto-ul asociat comenzii gasite
+     * @throws Exception daca comanda nu exista
+     */
     public ComandaDto findComandaById(Long id) throws Exception {
         Optional<Comanda> comandaOptional = comandaRepository.findById(id);
         if (!comandaOptional.isPresent()) {
@@ -39,6 +54,12 @@ public class ComandaService {
         return ComandaMapper.toComandaDto(comandaOptional.get());
     }
 
+    /**
+     * Insereaza o noua comanda in baza de date.
+     *
+     * @param comandaDto ComandaDto-ul comenzii de inserat
+     * @return ID-ul comenzii inserate
+     */
     public Long insert(ComandaDto comandaDto) {
         Comanda comanda = ComandaMapper.toEntity(comandaDto);
         comanda = comandaRepository.save(comanda);
@@ -46,6 +67,14 @@ public class ComandaService {
         return comanda.getId();
     }
 
+    /**
+     * Actualizeaza informatiile unei comenzi.
+     *
+     * @param id        ID-ul comenzii de actualizat
+     * @param comandaDto ComandaDto-ul cu noile informatii ale comenzii
+     * @return ComandaDto-ul comenzii actualizate
+     * @throws Exception daca comanda nu exista
+     */
     public ComandaDto update(Long id, ComandaDto comandaDto) throws Exception {
         Optional<Comanda> comandaOptional = comandaRepository.findById(id);
         if (comandaOptional.isPresent()) {
@@ -61,6 +90,12 @@ public class ComandaService {
         }
     }
 
+    /**
+     * Sterge o comanda din baza de date.
+     *
+     * @param id ID-ul comenzii de sters
+     * @throws Exception daca comanda nu exista
+     */
     public void delete(Long id) throws Exception {
         Optional<Comanda> optionalComanda = comandaRepository.findById(id);
         if (optionalComanda.isPresent()) {

@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+/**
+ * Clasa de serviciu care gestioneaza operatiunile legate de produse.
+ */
 public class ProdusService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProdusService.class);
     private final ProdusRepository produsRepository;
@@ -23,6 +26,11 @@ public class ProdusService {
         this.produsRepository = produsRepository;
     }
 
+    /**
+     * Returneaza o lista de toate produsele.
+     *
+     * @return Lista de produse sub forma de ProdusDto
+     */
     public List<ProdusDto> getProdus() {
         List<Produs> produsList = produsRepository.findAll();
         return produsList.stream()
@@ -30,6 +38,13 @@ public class ProdusService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gaseste un produs dupa ID.
+     *
+     * @param id ID-ul produsului
+     * @return ProdusDto-ul asociat produsului gasit
+     * @throws Exception daca produsul nu exista
+     */
     public ProdusDto findProdusById(Long id) throws Exception {
         Optional<Produs> produsOptional = produsRepository.findById(id);
         if (!produsOptional.isPresent()) {
@@ -39,6 +54,12 @@ public class ProdusService {
         return ProdusMapper.toProdusDto(produsOptional.get());
     }
 
+    /**
+     * Insereaza un nou produs in baza de date.
+     *
+     * @param produsDto ProdusDto-ul produsului de inserat
+     * @return ID-ul produsului inserat
+     */
     public Long insert(ProdusDto produsDto) {
         Produs produs = ProdusMapper.toEntity(produsDto);
         produs = produsRepository.save(produs);
@@ -46,6 +67,14 @@ public class ProdusService {
         return produs.getId();
     }
 
+    /**
+     * Actualizeaza informatiile unui produs.
+     *
+     * @param id ID-ul produsului de actualizat
+     * @param produsDto ProdusDto-ul cu noile informatii ale produsului
+     * @return ProdusDto-ul produsului actualizat
+     * @throws Exception daca produsul nu exista
+     */
     public ProdusDto update(Long id, ProdusDto produsDto) throws Exception {
         Optional<Produs> produsOptional = produsRepository.findById(id);
         if (produsOptional.isPresent()) {
@@ -63,6 +92,12 @@ public class ProdusService {
         }
     }
 
+    /**
+     * Sterge un produs din baza de date.
+     *
+     * @param id ID-ul produsului de sters
+     * @throws Exception daca produsul nu exista
+     */
     public void delete(Long id) throws Exception {
         Optional<Produs> optionalProdus = produsRepository.findById(id);
         if (optionalProdus.isPresent()) {

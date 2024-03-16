@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+/**
+ * Clasa de serviciu care gestioneaza operatiunile legate de recenzii.
+ */
 public class RecenziiService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecenziiService.class);
     private final RecenziiRepository recenziiRepository;
@@ -23,6 +26,11 @@ public class RecenziiService {
         this.recenziiRepository = recenziiRepository;
     }
 
+    /**
+     * Returneaza o lista de toate recenziile.
+     *
+     * @return Lista de recenzii sub forma de RecenziiDto
+     */
     public List<RecenziiDto> getRecenzii() {
         List<Recenzii> recenziiList = recenziiRepository.findAll();
         return recenziiList.stream()
@@ -30,6 +38,13 @@ public class RecenziiService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gaseste o recenzie dupa ID.
+     *
+     * @param id ID-ul recenziei
+     * @return RecenziiDto-ul asociat recenziei gasite
+     * @throws Exception daca recenzia nu exista
+     */
     public RecenziiDto findRecenziiById(Long id) throws Exception {
         Optional<Recenzii> recenziiOptional = recenziiRepository.findById(id);
         if (!recenziiOptional.isPresent()) {
@@ -39,6 +54,12 @@ public class RecenziiService {
         return RecenziiMapper.toRecenziiDto(recenziiOptional.get());
     }
 
+    /**
+     * Insereaza o noua recenzie in baza de date.
+     *
+     * @param recenziiDto RecenziiDto-ul recenziei de inserat
+     * @return ID-ul recenziei inserate
+     */
     public Long insert(RecenziiDto recenziiDto) {
         Recenzii recenzii = RecenziiMapper.toEntity(recenziiDto);
         recenzii = recenziiRepository.save(recenzii);
@@ -46,6 +67,14 @@ public class RecenziiService {
         return recenzii.getId();
     }
 
+    /**
+     * Actualizeaza informatiile unei recenzii.
+     *
+     * @param id ID-ul recenziei de actualizat
+     * @param recenziiDto RecenziiDto-ul cu noile informatii ale recenziei
+     * @return RecenziiDto-ul recenziei actualizate
+     * @throws Exception daca recenzia nu exista
+     */
     public RecenziiDto update(Long id, RecenziiDto recenziiDto) throws Exception {
         Optional<Recenzii> recenziiOptional = recenziiRepository.findById(id);
         if (recenziiOptional.isPresent()) {
@@ -61,6 +90,12 @@ public class RecenziiService {
         }
     }
 
+    /**
+     * Sterge o recenzie din baza de date.
+     *
+     * @param id ID-ul recenziei de sters
+     * @throws Exception daca recenzia nu exista
+     */
     public void delete(Long id) throws Exception {
         Optional<Recenzii> optionalRecenzii = recenziiRepository.findById(id);
         if (optionalRecenzii.isPresent()) {
